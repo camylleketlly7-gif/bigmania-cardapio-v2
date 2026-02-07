@@ -50,6 +50,29 @@ document.addEventListener("DOMContentLoaded", () => {
   // ==========================
   // FUNÇÕES PRINCIPAIS
   // ==========================
+  function updateCartUI() {
+  const cartContainer = document.getElementById("cart-container");
+  const totalElement = document.getElementById("cart-total");
+
+  // Limpa o carrinho antes de renderizar
+  cartContainer.innerHTML = "";
+
+  // Renderiza cada item do carrinho
+  cart.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "cart-item flex justify-between text-white mb-2";
+    div.innerHTML = `
+      <span>${item.name} (x${item.quantity})</span>
+      <span>R$ ${(item.price * item.quantity).toFixed(2).replace('.', ',')}</span>
+    `;
+    cartContainer.appendChild(div);
+  });
+
+  // Atualiza o total
+  const total = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+  totalElement.textContent = "Total: R$ " + total.toFixed(2).replace('.', ',');
+}
+
   function renderMenu() {
     const container = document.getElementById('menu-container');
     const filteredItems = activeCategory === 'all' ? menuItems : menuItems.filter(i => i.category === activeCategory);
